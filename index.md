@@ -15,8 +15,8 @@ The example patterns below are emails composed on the listed email clients filte
   <tr>
     <th>Pattern</th>
     <th>Outlook 2010</th>
-    <th>OSX Mail</th>
-    <th>iOS Mail</th>
+    <th>OSX Mail v4.6</th>
+    <th>Android Gmail v4.2.1</th>
   </tr>
   <tr>
     <td>plain text</td>
@@ -67,7 +67,20 @@ content-type: text/html
 content-transfer-encoding: 7bit
       </pre>
     </td>
-    <td></td>
+    <td>
+      <pre>
+section: 1
+content-type: multipart/alternative
+content-transfer-encoding: 8bit
+section: 1.1
+content-type: text/plain
+content-transfer-encoding: 8bit
+section: 1.2
+content-type: text/html
+content-transfer-encoding: 8bit
+
+      </pre>
+</td>
   </tr>
   <tr>
     <td>attachment</td>
@@ -109,7 +122,28 @@ content-disposition: inline
 content-disposition-filename: tiny_image.jpg
 	</pre>
     </td>
-    <td></td>
+    <td>
+      <pre>
+section: 1
+content-type: multipart/mixed
+content-transfer-encoding: 8bit
+section: 1.1
+content-type: multipart/alternative
+content-transfer-encoding: 8bit
+section: 1.1.1
+content-type: text/plain
+content-transfer-encoding: 8bit
+section: 1.1.2
+content-type: text/html
+content-transfer-encoding: 8bit
+section: 1.2
+content-type: image/jpeg
+content-name: IMG_20130106_203051.jpg
+content-transfer-encoding: base64
+content-disposition: attachment
+content-disposition-filename: IMG_20130106_203051.jpg
+      </pre>
+    </td>
   </tr>
   <tr>
     <td>multiple forwarded messages</td>
