@@ -7,7 +7,7 @@ title: "Multipart MIME Email Structures"
 
 A conformant  email client is minimally required to support the "mixed" and "digest" subtypes.  Other commonly used subtypes are "alternative", "message", "related", "report", "signed", "encrypted".  Note that many of these subparts can be nested.
 
-The example patterns below are emails composed on the listed email clients filtered with of the courier [reformime](http://www.courier-mta.org/reformime.html) utility.  This anonymizes the messages and makes the structure more human-readable.
+The example patterns below are emails composed on the listed email clients filtered with of the courier [reformime](http://www.courier-mta.org/reformime.html) utility.  This makes the structure more human-readable.
 
     $ cat test.eml | reformime -i | egrep 'content-|section'
 
@@ -17,15 +17,16 @@ The example patterns below are emails composed on the listed email clients filte
     <th>Outlook 2010</th>
     <th>OSX Mail v4.6</th>
     <th>Android Gmail v4.2.1</th>
+    <th>Android Email v4.1</th>
+    <th>iOS Mail</th>
   </tr>
   <tr>
     <td>plain text</td>
     <td>
       <pre>
 section: 1
-content-type: multipart/mixed
-content-transfer-encoding: 8bit
-charset: UTF-8
+content-type: text/plain
+content-transfer-encoding: 7bit
 content-language: en-us
       </pre>
     </td>
@@ -37,6 +38,20 @@ content-transfer-encoding: 7bit
       </pre>
 </td>
     <td></td>
+    <td>
+      <pre>
+section: 1
+content-type: text/plain
+content-transfer-encoding: base64
+      </pre>
+    </td>
+    <td>
+      <pre>
+section: 1
+content-type: text/plain
+content-transfer-encoding: 7bit
+      </pre>
+    </td>
   </tr>
   <tr>
     <td>rich text</td>
@@ -144,6 +159,22 @@ content-disposition: attachment
 content-disposition-filename: IMG_20130106_203051.jpg
       </pre>
     </td>
+    <td>
+      <pre>
+section: 1
+content-type: multipart/mixed
+content-transfer-encoding: 8bit
+section: 1.1
+content-type: text/plain
+content-transfer-encoding: base64
+section: 1.2
+content-type: image/jpeg
+content-name: 12 - 1
+content-transfer-encoding: base64
+content-disposition: attachment
+content-disposition-filename: 12 - 1
+      </pre>
+    </td>
   </tr>
   <tr>
     <td>multiple forwarded messages</td>
@@ -187,10 +218,10 @@ content-type: multipart/mixed
 content-transfer-encoding: 8bit
 section: 1.1
 content-type: message/rfc822
-content-name: Welcome to OtherInbox!
+content-name: Welcome
 content-transfer-encoding: 7bit
 content-disposition: attachment
-content-disposition-filename: Welcome to OtherInbox!
+content-disposition-filename: Welcome
 section: 1.1.1
 content-type: multipart/mixed
 content-transfer-encoding: 8bit
@@ -208,10 +239,10 @@ content-type: text/html
 content-transfer-encoding: 7bit
 section: 1.2
 content-type: message/rfc822
-content-name: Don't lose your free trial, Paul!
+content-name: free trial
 content-transfer-encoding: 7bit
 content-disposition: attachment
-content-disposition-filename: Don't lose your free trial, Paul!
+content-disposition-filename: free trial
 section: 1.2.1
 content-type: multipart/mixed
 content-transfer-encoding: 8bit
